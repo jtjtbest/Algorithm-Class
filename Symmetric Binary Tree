@@ -1,0 +1,37 @@
+a binary tree is Symmetric if left child and right child are symmetric:
+  - left subtree equal right subtree.
+  - left subtree's left child should match right subtree's right child
+  - left subtree's right child should match right subtree's left child
+imagine if we fold the tree on the root node from left to right, if symmetric all nodes on top of each other should match in value.
+if a node is null, it is symmetric too
+
+input: TreeNode root
+Output: boolean 
+Algorithms: 
+1. use recursive method to check root.left and root.right
+2. use recursive method to check (root.left.left and root.right.right) && (root.left.right and root.right.left)
+
+
+
+public class Solution {
+  public boolean isSymmetric(TreeNode root) {
+    // Write your solution here
+    // corner case check
+    if (root == null) {
+      return true;
+    }
+    // isSymmetric need to compare left and right two nodes and their children
+    return isSymmetric(root.left, root.right);
+  }
+
+  private boolean isSymmetric (TreeNode one, TreeNode two) {
+    if (one == null && two == null) {
+      return true;
+    } else if (one == null || two == null) {
+      return false;
+    } else if (one.key != two.key) {
+      return false;
+    }
+    return isSymmetric(one.left, two.right) && isSymmetric(one.right, two.left); 
+  }
+}
