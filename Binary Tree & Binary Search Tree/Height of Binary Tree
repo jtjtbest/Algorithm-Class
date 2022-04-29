@@ -1,7 +1,6 @@
-
-
-
-
+Method 1: Iterative method: use a queue to store all the node level by level, and use variable count to record how many level we traverse
+                            return count when queue is empty meaning no more child node.
+                            
 public class Solution {
   public int findHeight(TreeNode root) {
     // Write your solution here
@@ -35,3 +34,19 @@ public class Solution {
     
   }
 }
+
+
+Mehotd 2: Recursive method: 1. Recursively call root.left and root.right and find the max. 
+                            2. max plus 1 which is our current level to parent.  => will eventually return to root level.
+
+public class Solution {
+  public int findHeight(TreeNode root) {
+    // Write your solution here
+    if (root ==null) {
+      return 0;
+    }
+    return Math.max (findHeight(root.left), findHeight(root.right)) + 1;
+  }
+}
+
+
