@@ -1,4 +1,13 @@
-1. 
+If a binary tree is balanced, the depth of every node's left and right subtree differ by at most 1.
+Input: TreeNode root
+Ouptput: boolean whether the tree is balanced or not
+Algorithm: 1. use recursive methods to get the tree height of left and right subtree, 
+           2. if the difference is larger than 1 return false
+           3. do this for every sub tree
+
+
+
+
 public class Solution {
   public boolean isBalanced(TreeNode root) {
     // Write your solution here
