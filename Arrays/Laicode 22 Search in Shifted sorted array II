@@ -1,0 +1,48 @@
+we need to search for target in shifted sorted array with duplicate elements. if target is found and there are multiple, we return the smallest index.
+case 1: what if l == right => we check array[l] == target first, if matched we just return because l guaranteed to have the smallest index 
+case 2: what if mid == target => since we need to find smallest, we move r = mid, can't do plus 1 because mid could potential the only target.
+case 3: if mid is on larger ascending sorted array: case 3.1: target between [l, mid) => r = mid - 1,  , case 3.2: target is to the right of mid => l = mid + 1 
+case 4: if mid is on smaller ascedning sorted array: case 4.1: target is between (mid, r] => l = mid + 1, else case 4.2: target is to the left of mid => r = mid - 1  
+case 5: if none of case 1-4 are qualified, only possible answer is arrray[l] == array[mid] == array[r], in this case we can either l++ or r-- to reduce search space
+        we can't guarantee where mid is, we have to keep searching.
+
+
+
+Code:
+public class Solution {
+  public int search(int[] array, int target) {
+    // Write your solution here
+    // clarification: could be duplicate elements, return smallest index if multiple occurrence
+    // 4 cases:
+    // case 1: array[l] == target: 
+    if (array == null || array.length == 0) {
+      return -1;
+    }
+    int l = 0, r = array.length - 1;
+    while (l < r) {
+      int mid = l + (r - l) / 2;
+      if (array[l] == target) {
+        r = l; // we found what we need, exit loop
+      } else if (array[mid] == target) {
+        r = mid; // can't do mid - 1 because mid could be the only answer, r = mid because we need to look for smallest index
+      } else if (array[l] < array[mid] || array[mid] > array[r]) { // meaning l to mid is ascending
+        // [l, mid) ascending
+        if (array[l] <= target && target < array[mid]) {
+          r = mid - 1;
+        } else {
+          l = mid + 1;
+        }
+      } else if (array[l] > array[mid] || array[mid] < array[r]) {
+        if (array[mid] < target && target <= array[r]) {
+          l = mid + 1;
+        } else {
+          r = mid - 1;
+        }
+      } else {
+        r--;
+      }
+    }
+    return array[l] == target ? l : -1;
+  
+  }
+}
