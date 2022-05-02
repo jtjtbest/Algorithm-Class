@@ -1,0 +1,42 @@
+Here we need to search for a target in a shifted sorted array, meaning the sorted array in ascending order but were shifted to left or right by k position.
+The key here is to recognize that after shifted we have 2 sorted array in ascending order. 
+We can still apply binary search to find target but we have to check to see which sorted array the mid is located on. 
+Here we use array[0] as the pivot point, so if array[mid] is larger than pivot, we know mid is on ascending array starting at array[0]
+if array[mid] is smaller than pivot, we know mid is on the second asceding array. 
+step1: find mid and compare with target if match we found the result just return mid
+step 2: if mid is larger than pivot, we check to see if target is between array[l] and array[mid] because these range is confirmed to be ascending. noted here array[left] is less or EQUAL to target
+step 3: if mid is smaller than pivot, we check to see if target is between array[mid] and array[r] because these range is confirmed to be ascending
+
+
+
+Solution: 
+public class Solution {
+  public int search(int[] array, int target) {
+    if (array == null || array.length == 0) {
+      return -1;
+    }
+    
+    int left = 0;
+    int pivot = array[0];
+    int right = array.length - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (array[mid] == target) {
+        return mid;
+      } else if (array[mid] >= pivot) {
+        if (array[mid] > target && array[left] <= target) {
+          right = mid - 1;
+        } else {
+          left = mid + 1;
+        }
+      } else {
+        if (array[mid] < target && target <= array[right]) {
+          left = mid + 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+    }
+    return -1;
+  }
+}
