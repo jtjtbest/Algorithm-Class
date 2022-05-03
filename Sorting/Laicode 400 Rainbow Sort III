@@ -1,0 +1,44 @@
+we need to sort an array of k different colors denoted by 1 - k, sort the array. 
+Since there are K colors, we can't use traditional rainbow sort. 
+The trick is to process 2 colors each round from two ends: first round we only sort color 1 and k, second round sort color 2 and k-1.
+The need to search range will become smaller each round.
+TC: since we process 2 colors each round and there are k colors, outside loop we need minimum k/2 rounds. 
+    Inside loop worse case scenario we need to use O(n) time , so total TC O(k/2 * n)
+SC: O(1), no additional space required.
+
+
+
+
+
+
+public class Solution {
+  public int[] rainbowSortIII(int[] array, int k) {
+    // Write your solution here
+    // TC: O(nk/2) : k/2 round first for loop, n round inside for loop
+    // SC: O(1)
+    if (array == null || array.length < 2) { // no element or 1 element, just return
+      return array;
+    }
+    int left = 0, right = array.length - 1;  // boundaries
+    for (int round = 1; round <= k / 2; round++) { // ball color rounds
+      int leftColor = round, rightColor = k + 1 - round; // total left+right== 1+k
+      for (int i = left; i <= right; i++) {
+        if (array[i] == leftColor) {
+          swap(array, i, left);
+          left++;
+        } else if (array[i] == rightColor) {
+          swap(array, i, right);
+          right--;
+          i--; // we dont know why is on right, so after swap we need to take step back
+        }
+      }
+    }
+    return array;  
+  }
+
+  private void swap(int[] array, int a, int b) {
+    int temp = array[a];
+    array[a] = array[b];
+    array[b] = temp;
+  }
+}
