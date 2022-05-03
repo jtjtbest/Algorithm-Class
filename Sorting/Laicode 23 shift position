@@ -1,0 +1,36 @@
+We need to find the index of smallest element on a ascending sorted array shifted by unknown n positions.
+My approach is to use binary search to find the cutoff line between largest and smallest by compared mid with left and right.
+Tc: O(n)
+Sc: O(1)
+
+
+public class Solution {
+  public int shiftPosition(int[] array) {
+    // Write your solution here
+    // clarification: no duplicate!!
+    // find mid, then compare with pivot, if larger, we on larger half, l = mid + 1
+    // only the smallest element will have index - 1 > itself/
+    if (array == null || array.length == 0) {
+      return -1;
+    }
+
+    if (array.length == 1 || array[0] < array[array.length - 1]) {
+      return 0;
+    }
+
+    int left = 0;
+    int right = array.length - 1;
+    while (left < right - 1) {
+      int mid = left + (right - left) / 2;
+      if (array[mid] > array[left]) {
+        left = mid;
+      } else if (array[mid] < array[left]) {
+        right = mid;
+      }
+    }
+    if (array[left] > array[right]) {
+      return right;
+    }
+    return -1;
+  }
+}
